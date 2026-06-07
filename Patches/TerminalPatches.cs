@@ -25,10 +25,7 @@ public static class TerminalPatches {
 
         var itemInfoNouns = infoKeyword.compatibleNouns.ToList();
         if (itemInfoNouns.All(x => x.noun.word != keyword.word)) {
-            itemInfoNouns.Add(new CompatibleNoun {
-                noun = keyword,
-                result = terminalNode
-            });
+            itemInfoNouns.Add(new CompatibleNoun(keyword,terminalNode));
         }
         infoKeyword.compatibleNouns = itemInfoNouns.ToArray();
         

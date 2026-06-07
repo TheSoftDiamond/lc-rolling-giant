@@ -81,7 +81,10 @@ public class RollingGiantAI : EnemyAI {
       isOutside = enemyType.isOutsideEnemy || enemyType.isDaytimeEnemy;
       if (isOutside) {
          allAINodes = GameObject.FindGameObjectsWithTag("OutsideAINode");
-      }
+      } else
+        {
+            allAINodes = GameObject.FindGameObjectsWithTag("AINode");
+        }
    }
 
    public void ResetValues() {
@@ -733,7 +736,7 @@ public class RollingGiantAI : EnemyAI {
    }
 
    private bool CheckLineOfSightTo(PlayerControllerB player) {
-      return player && HasLineOfSightToPosition(player.gameplayCamera.transform.position, 68f);
+      return player && CheckLineOfSightForPosition(player.gameplayCamera.transform.position, 68f);
    }
    
    private bool CheckLineOfSightToAnyPlayer() {
@@ -858,7 +861,9 @@ public class RollingGiantAI : EnemyAI {
       // LogInfo($"[AssignInitData_ClientRpc::{_sharedAiSettings.aiType}] agent.transform.localScale: {agent.transform.localScale}");
    }
 
-   private void AssignAgentData(float scale) {
+
+   private void AssignAgentData(float scale) 
+    {
       Init(scale);
       if (scale >= 1.2f) {
          var areas = agent.areaMask;
@@ -871,4 +876,5 @@ public class RollingGiantAI : EnemyAI {
          _tooBig = true;
       }
    }
+
 }

@@ -52,15 +52,13 @@ public class Plugin : BaseUnityPlugin {
         PluginDirectory = Info.Location;
         LoadSettings();
         RemoveOldSettings();
-#if DEBUG
-        new ILHook(typeof(StackTrace).GetMethod("AddFrames", BindingFlags.Instance | BindingFlags.NonPublic), IlHook);
-#endif
+
         LoadAssets();
         LoadNetWeaver();
         
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         
-        Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
+        Logger.LogInfo($"Plugin {PluginGuid} is loaded!");
     }
 
     private void LoadNetWeaver() {
@@ -161,26 +159,6 @@ public class Plugin : BaseUnityPlugin {
             Log.LogError($"Failed to load assets! {e}");
         }
     }
-
-#if DEBUG
-    private void IlHook(ILContext il) {
-        var cursor = new ILCursor(il);
-        cursor.GotoNext(
-            x => x.MatchCallvirt(typeof(StackFrame).GetMethod("GetFileLineNumber", BindingFlags.Instance | BindingFlags.Public))
-        );
-        cursor.RemoveRange(2);
-        cursor.EmitDelegate(GetLineOrIL);
-    }
-
-    private static string GetLineOrIL(StackFrame instance) {
-        var line = instance.GetFileLineNumber();
-        if (line == StackFrame.OFFSET_UNKNOWN || line == 0) {
-            return "IL_" + instance.GetILOffset().ToString("X4");
-        }
-
-        return line.ToString();
-    }
-#endif
 }
 
 #if DEBUG
