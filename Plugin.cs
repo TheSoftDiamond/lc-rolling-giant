@@ -24,7 +24,7 @@ namespace RollingGiant;
 public class Plugin : BaseUnityPlugin {
     public const string PluginGuid = "nomnomab.rollinggiant";
     public const string PluginName = "Rolling Giant";
-    public const string PluginVersion = "2.5.2";
+    public const string PluginVersion = "2.6.2";
     
     private const int SaveFileVersion = 11;
 
